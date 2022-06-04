@@ -1,0 +1,5 @@
+# Project Plan
+
+In mathematical programming, the convexity of problems brings with it many benefits, one of the most important of which is the guarantee of global optimality at local optimal points. However, in the real world there are plenty of difficult non-convex problems. It might be possible to solve them using similar approaches, in which the convex problems are resolved, but with some modification. Also, chances are that the problem could have a convex relaxation under certain circumstances. For our project, we plan to do some research on non-convex optimization problems. In particular, we pay attention to the important role that convexity or convex optimization algorithms play in solving the non-convex problems.
+
+Possible reference textbook: Luenberger, D. G., & Ye, Y. (1984). *Linear and nonlinear programming* (Vol. 2). Reading, MA: Addison-wesley.
