@@ -71,13 +71,13 @@ Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effecti
 \subsection{Equality Constraints}
 
 First, we consider a standard form of low-rank problem, which has only one linear equality constraint.
-\begin{problem}[Low-rank minimization]
+\begin{definition}[Low-rank minimization]
     Let \(\mathcal{A}:\R^{m\by n}\to \R^p\) be a linear map and \(b\in \R^p\), the \emph{low-rank minimization} problem is of the form 
     \[\begin{aligned}
         \minimize & \rank X\\
         \subjectto & \mathcal A(X)=b.
     \end{aligned}\]
-\end{problem}
+\end{definition}
 
 Clearly, \(\rank(\cdot)\) is not a convex function, then this is not a convex optimization problem, though it always has a optimal value. However, if we attach some conditions, we can find a convex problem to relax it tightly, i.e. an optimal point of the relaxed convex problem is also an optimal point of the original problem. Now, we define some notations:
 
