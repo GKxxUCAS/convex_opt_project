@@ -292,8 +292,6 @@ We found that the relation between the rank and the nuclear norm  is the same as
 
 Since the nuclear norm is not differentiable, gradient descent method is not suitable for low-rank optimization. However, we can use the subgradient instead of the real subgradient. Correspondingly, it does not guarantee the rate of convergence.
 
-
-
 \begin{definition}[Subgradient]
     Let \(f:\R^n \to \R\) and its \emph{subgradient} at \(x_0\) is a set defined by
     \[\partial f\left(x_0\right) := \left\{d \in \R^n \mid f(y)\geqslant f\left(x_0\right) + d^T \left(y-x_0\right),\forall y \in \R^n\right\}.\]
@@ -316,7 +314,7 @@ In the figure \ref{fig:subgradient}, the red lines give two feasible directions 
 
 \begin{proposition}
     The subgradient of the nuclear norm at \(X_0\) is given by \cite{lewis2003mathematics},\cite{watson1992characterization}
-    \[\partial \norm{X_0}_* = \{UV^T+W \mid W \text{ and } X \text{have orthogonal row/column spaces and } \norm{W} \leqslant 1 \},\]
+    \[\partial \norm{X_0}_* = \left\{UV^T+W \mid W \textnormal{ and } X\textnormal{ have orthogonal row/column spaces and } \norm{W} \leqslant 1 \right\},\]
     where \(U\) and \(V\) are factors of SVD of \(X_0\), i.e. \(X_0=U\Sigma V^T.\)
 \end{proposition}
 
@@ -325,19 +323,18 @@ In the figure \ref{fig:subgradient}, the red lines give two feasible directions 
 
 Considering the affine equality constraint of low-rank optimization, the iteration method should satisfy
 \[X_{k+1}= \Pi(X_k-s_k Y_k), \qquad Y_k \in \partial (\norm{X_k}_*),\]
-
 where \(\Pi\) is the orthogonal projection onto the affine subspace defined by the linear constraints \(\mathcal{A}(X)=b\) and \(s_{k}>0\) is a stepsize parameter. Alternatively, since \(X_{k}\) is feasible, we can rewrite this as
 \[
 X_{k+1}=X_{k}-s_{k} \Pi_{\mathcal{A}} Y_{k},
 \]
-where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\). 
+where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\).
 
 To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the above proposition, which is a quite hard task. However, we only need \(UV^T\) rather than the whole information of SVD. So we can use a iterative method to find \(UV^T\) as the "angular" factor of the polar decomposition.
 
 \begin{proposition}
     Let the SVD of \(X\) is \(U\Sigma V^T\), then the polar decomposition of it can be written as \(X=\tilde{U} \tilde{P}\), where
     \[\tilde{U}=U V^T,\qquad \tilde{P}=V\Sigma V^T,\]
-    satisfying \(\tilde{U}\) is orthogonal and \(\tilde{P}\) is positive semidefinite.
+    satisfying that \(\tilde{U}\) is orthogonal and \(\tilde{P}\) is positive semidefinite.
 \end{proposition}
 \subsection{Convergence analysis}
 
