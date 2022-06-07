@@ -43,7 +43,7 @@ Recently, low-rank problems, such as affine constrained rank minimization proble
 In general, a low-rank problem is to optimize the rank of a matrix with a series of constraints. We first show some examples of problems of this kind.
 
 \begin{example}
-    In non-rigid structure-from-motion (NRSfM), a recent work by Dai \emph{et al.} showed that under rank minimization formulation to NRSfM factorization
+    In non-rigid structure-from-motion (NRSfM), a recent work by Dai \emph{et al.} \cite{dai2014simple} showed that under rank minimization formulation to NRSfM factorization
     \[\begin{aligned}
         \minimize & \rank(S^{\sharp})\\
         \subjectto & W=RS\\
@@ -63,7 +63,7 @@ In general, a low-rank problem is to optimize the rank of a matrix with a series
         \minimize & \norm Z_\ast+\norm L_\ast\\
         \subjectto & X=XZ+LX
     \end{aligned}\]
-    By analyzing the noiseless LatLRR model, Zhang \emph{et al.} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique \cite{dai2014rank}.
+    By analyzing the noiseless LatLRR model, Zhang \emph{et al.} \cite{zhang2013counterexample} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique \cite{dai2014rank}.
 \end{example}
 
 Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effective relaxation, it still works well as convex relaxation under particular conditions, which is our main topic.
