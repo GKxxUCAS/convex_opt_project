@@ -286,6 +286,7 @@ Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as l
 
 Now, we come back to low-rank minimization(problem \ref{p:lr}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
 We found that the relation between the rank and the nuclear norm  is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank is equal to the number of nonzero singular values and the nucealr norm is the sum of the absolute value of singular, while the \(\ell_0\) norm is equal to the number of nonzero component of a vector and \(\ell_1\) norm
+
 \section{Solution}
 
 \subsection{Subgradient}
@@ -314,7 +315,7 @@ In the figure \ref{fig:subgradient}, the red lines give two feasible directions 
 
 \begin{proposition}
     The subgradient of the nuclear norm at \(X_0\) is given by \cite{lewis2003mathematics},\cite{watson1992characterization}
-    \[\partial \norm{X_0}_* = \{UV^T+W \mid W \text{ and } X \text{have orthogonal row/column spaces and } \norm{W} \leqslant 1 \},\]
+    \[\partial \norm{X_0}_* = \left\{UV^T+W \mid W \textnormal{ and } X\textnormal{ have orthogonal row/column spaces and } \norm{W} \leqslant 1 \right\},\]
     where \(U\) and \(V\) are factors of SVD of \(X_0\), i.e. \(X_0=U\Sigma V^T.\)
 \end{proposition}
 
@@ -323,14 +324,13 @@ In the figure \ref{fig:subgradient}, the red lines give two feasible directions 
 
 Considering the affine equality constraint of low-rank optimization, the iteration method should satisfy
 \[X_{k+1}= \Pi(X_k-s_k Y_k), \qquad Y_k \in \partial (\norm{X_k}_*),\]
-
 where \(\Pi\) is the orthogonal projection onto the affine subspace defined by the linear constraints \(\mathcal{A}(X)=b\) and \(s_{k}>0\) is a stepsize parameter. Alternatively, since \(X_{k}\) is feasible, we can rewrite this as
 \[
 X_{k+1}=X_{k}-s_{k} \Pi_{\mathcal{A}} Y_{k},
 \]
-where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\). 
+where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\).
 
-To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the above proposition, which is a quite hard task. However, 
+To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the above proposition, which is quite a hard task. However, 
 \subsection{Convergence analysis}
 
 \section{Implementation}
