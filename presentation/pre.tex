@@ -2,10 +2,18 @@
 
 \usepackage{../defs}
 
-\usetheme{CambridgeUS}
+\usepackage{mathrsfs}
+
+\usepackage{xcolor}
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+
+\usetheme{Berlin}
 \usecolortheme{spruce}
 
-\title{Convex Optimization Project}
+\title{Application of Convex Relaxation on Low-rank Optimization Problems}
 \author{GKxx, Jayncp, ZYP}
 \date{\today}
 
@@ -13,6 +21,148 @@
 
 \begin{frame}
     \maketitle
+\end{frame}
+
+\begin{frame}{Contents}
+    \tableofcontents
+\end{frame}
+
+\section{Convex Relaxation: Introduction}
+
+\begin{frame}{Solve Non-convex Problems}
+    Typical ways of solving non-convex problems:
+    \begin{itemize}
+        \item Descent methods
+        \begin{itemize}
+            \item Block coordinate descent method
+            \item Gradient descent method
+            \item Steepest descent method
+            \item \dots
+        \end{itemize}
+        \item Successive convex approximation method
+        \item \blue{Convex relaxation method}
+    \end{itemize}
+\end{frame}
+
+\section{Low-rank Optimization}
+
+\subsection{Examples}
+
+\begin{frame}{Non-rigid Structure-from-Motion}
+    \[\begin{aligned}
+        \minimize & \rank\left(S^\sharp\right)\\
+        \subjectto & W=RS,
+    \end{aligned}\]
+    where \(S^\sharp:=\bvec{P_X & P_Y & P_Z}\left(I_3\otimes S\right)\).
+\end{frame}
+
+\begin{frame}{Latent Low-rank Representation Model}
+    \[\begin{aligned}
+        \minimize & \rank Z+\rank L\\
+        \subjectto & X=XZ+LX.
+    \end{aligned}\]
+    \pause
+    The corresponding nuclear norm minimization formulation:
+    \[\begin{aligned}
+        \minimize & \norm Z_\ast+\norm L_\ast\\
+        \subjectto & X=XZ+LX.
+    \end{aligned}\]
+\end{frame}
+
+\subsection{Equality Constraints}
+
+\begin{frame}{Problem Formulation}
+    \begin{definition}[Low-rank minimization]
+        Let \(\mathcal A:\R^{m\by n}\to\R^p\) be a linear map and \(b\in\R^p\). The low-rank minimization problem is of the form
+        \[\begin{aligned}
+            \minimize & \rank X\\
+            \subjectto & \mathcal A(X)=b.
+        \end{aligned}\]
+    \end{definition}
+    \pause
+    \begin{itemize}
+        \item \(\rank(\cdot)\) is non-convex.
+        \item Write \(\mathcal A(\cdot)\) as multiplication by a matrix \(A\), and \(\mathcal A(X)\) is equivalent to \(A\operatorname{vec}(X)\).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Notations}
+    \begin{definition}[Support]
+        The \emph{support} of a vector \(x\) is defined as \(\supp(x)=\left\{i\mid x_i\neq 0\right\}\).
+    \end{definition}
+    \begin{definition}[Nuclear norm]
+        Given \(X\in\R^{m\by n}\) and \(q=\min\{m,n\}\), the \emph{nuclear norm} of \(X\) is defined as
+        \[\norm{X}_\ast=\sum_{i=1}^k\sigma_i(X),\]
+        where \(\sigma_i(X)\) is the \(i\)-th singular value of \(X\).
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Notations}
+    \begin{definition}[Approximately sparse vectors]
+        The set of approximately sparse vectors with support \(S\) is
+        \[C(S):=\left\{\Delta\in\R^d\mid\norm{\Delta_{\bar S}}_1\leqslant\norm{\Delta_S}_1\right\},\]
+        where \(S\subseteq [d]:=\left\{1,2,\cdots,d\right\},\bar S=[d]-S\) and \(\Delta_S\) is \(\Delta\) restricted to \(S\), i.e.
+        \[\left(\Delta_S\right)_i=\begin{cases}
+            \Delta_i,&i\in S\\
+            0,&\otherwise.
+        \end{cases}\]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Relaxation by Nuclear Norm}
+    \[\begin{aligned}
+        \minimize & \norm X_\ast:=\sum_{i=1}^k\sigma_i(X)\\
+        \subjectto & \mathcal A(X)=b.
+    \end{aligned}\]
+    \begin{itemize}
+        \item A convex relaxation
+        \item Under what circumstances is this relaxation tight?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Relaxation by Nuclear Norm}
+    \begin{theorem}
+        Suppose \(X_0\) is the optimal point of a low rank representation problem with \(\rank X_0=r\) and SVD \(X_0=U\Sigma V^T\), \(k=\min\{m,n\}\), \(S=[r]\), \(\bar S=[k]-S\) and \(\mathcal B:\R_{\geqslant 0}^k\to\R^p\),
+        \[\mathcal B:\left(x_1,\cdots,x_k\right)\mapsto\mathcal A\left(U\begin{pmatrix}
+            \diag(x_1,\cdots,x_k) & 0\\
+            0 & 0
+        \end{pmatrix}_{m\by n}V^T\right).\]
+        If \(\Null{\mathcal B}\cap C(S)=\{0\}\), then the optimal point of the relaxation given by nuclear norm is the same as that of the original problem.
+    \end{theorem}
+    \begin{itemize}
+        \item \(\Null{\mathcal B}\cap C(S)=\{0\}\): Restricted Nullspace Property (RNP).
+    \end{itemize}
+\end{frame}
+
+\subsection{Positive Semidefinite Constraints}
+
+\begin{frame}{Positive Semidefinite Requirement}
+    Further require the variable \(X\) to be positive semidefinite:
+    \[\begin{aligned}
+        \minimize & \Tr X\\
+        \subjectto & \mathcal A(X)=b\\
+        & X\succeq 0.
+    \end{aligned}\]
+    \begin{itemize}
+        \item An SDP problem.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Positive Semidefinite Requirement}
+    To reduce the number of constraints, we may punish the violation of the equality constraint on the objective function:
+    \[\begin{aligned}
+        \minimize & \alpha\Tr X+\frac12\norm{\mathcal A(X)-b}\\
+        \subjectto & X\succeq 0.
+    \end{aligned}\]
+    \begin{itemize}
+        \item \(\alpha\) is a scalar regularization variable that directly trades off goodness for complexity of fit.
+        \item Its optimal value depends upon the assumed noise level in practice.
+    \end{itemize}
+\end{frame}
+
+\subsection{Relaxation}
+
+\begin{frame}
 \end{frame}
 
 \end{document}
