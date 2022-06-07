@@ -1,0 +1,236 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm, mathrsfs, euler}
+\usepackage{enumerate}
+\usepackage[margin = 1in]{geometry}
+
+\usepackage{../defs}
+
+\title{Convex Optimization Project}
+\author{GKxx, YHZ, ZYP}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{An introduction for convex relaxation}
+
+In research, plenty of traditional methods for solving non-convex optimization problems have been found and have proved effective. Some of them are listed below.
+
+\begin{enumerate}
+    \item Block coordinate descent method\par
+    In each generation selection process, only one variable is optimized and solved, while the rest variables remain unchanged and then solved alternately.
+    \item Successive convex approximation method\par
+    The first order Taylor expansion of the objective function was carried out at a fixed point, and then the approximate function was constructed to solve the problem instead of the original objective function.
+    \item Convex relaxation method\par
+    A relaxation variable or function is introduced to replace some part of the original objective function with, so that the objective function becomes convex and the problem reduces to a convex problem.
+\end{enumerate}
+
+In this project, we mainly focus on the third method. The core idea of convex relaxation is to transform an arbitrary non-convex problem into a convex one, which has more desired properties. An ideal relaxation is supposed to ensure that the optimal solution is the same as that of the original problem, while this might be difficult to achieve in practice. In the next section, we will look at a classic example in which a convex relaxation has been found and is good enough to ensure that the optimal solution remains unchanged.
+
+\section{Low-rank Optimization}
+
+\subsection{Introduction}
+
+Recently, low-rank problems, such as affine constrained rank minimization problems (ARMP), have received considerable attention from the computer vision communities, among many other research communities in science and engineering. In the area of computer vision, a wide range of problems can be, and have been, represented under this low-rank or rank-minimization framework. Low-rank models have been used to interpret/approximate in high dimension and for large scale measurements. The low-rank formulation seems to be able to effectively capture the low-order structure of the underlying problems.
+
+In general, low-rank problem is to optimize the rank of a matrix with a series of constraints. Here, we show some examples of this kind of problems.
+
+\begin{example}
+    In non-rigid structure-from-motion (NRSfM), a recent work by Dai \emph{et al.} showed that under rank minimization formulation to NRSfM factorization
+    \[\begin{aligned}
+        \minimize & \rank(S^{\sharp})\\
+        \subjectto & W=RS\\
+        & S^{\sharp}:=\bvec{P_X & P_Y & P_Z}\left(I_3\otimes S\right)=g(S)
+    \end{aligned}\]
+    there exist configurations such that multiple solutions explain the same measurements exactly.
+\end{example}
+
+\begin{example}\label{eg:latlrr}
+    Latent low rank representation (LatLRR) model:
+    \[\begin{aligned}
+        \minimize & \rank Z+\rank L\\
+        \subjectto & X=XZ+LX
+    \end{aligned}\]
+    The nuclear norm minimization formulation for LatLRR is:
+    \[\begin{aligned}
+        \minimize & \norm Z_\ast+\norm L_\ast\\
+        \subjectto & X=XZ+LX
+    \end{aligned}\]
+    By analyzing the noiseless LatLRR model, Zhang \emph{et al.} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique.\cite{dai2014rank}
+\end{example}
+
+Although in Example (\ref{eg:latlrr}) the nuclear norm does not provide an effective relaxation, it still works well as convex relaxation under particular conditions, which is our main topic.
+
+\subsection{Equality Constraints}
+
+First, we consider a standard form of low-rank problem, which has only one linear equality constraint.
+\begin{definition}
+    \emph{Low rank representation}: Let $\mathcal{A}:\R^{m\times n}\to \R^p$ be a linear map and $b\in \R^p,$ then 
+    \[\begin{aligned}
+        \minimize & \rank X\\
+        \subjectto & \mathcal Ax=b.
+    \end{aligned}\]
+\end{definition}
+
+Clearly, $\rank(\cdot)$ is not a convex function, then this is not a convex optimization problem, though it always has a optimal value. However, if we attach some conditions, we can find a convex problem to relax it tightly, i.e. an optimal point of the relaxed convex problem is also an optimal point of the original problem. Now, we define some notations:
+
+\begin{definition}
+    The \emph{support} of a vector x is defined as
+    \[\supp(x) = \left\{i \mid x_i \neq 0\right\}.\]
+\end{definition}
+
+\begin{definition}
+    \emph{The set of approximately sparse vectors} with support \(S\) is 
+    \[C(S):=\left\{\Delta \in \R^d \mid \norm{\Delta_{\bar{S}}}_1\leqslant \norm{\Delta_S}_1\right\},\]
+    where \(S\) is a subset of \([d]:=\{1,2,\cdots,d\}\), $\bar{S}=[d]-S$ and \(\Delta_S\) is \(\Delta\) restricted to \(S\),
+    \[(\Delta_S)_i = \begin{cases}
+        \Delta_i, & i \in S,\\
+        0, & \otherwise
+    \end{cases}\]
+\end{definition}
+
+Then we can give a theorem to show the above statement.
+
+\begin{theorem}
+    Suppose \(X_0\) is the optimal point of a low rank representation problem with $\rank X_0=r$ and SVD \(X_0 = U\Sigma V^T\), $k=\min(m,n)$, $S=[r],\bar{S}=\{r+1,\cdots ,k\}$ and \(\mathcal{B}:\R^k_{\geqslant 0} \to \R^p\),
+    \[\mathcal{B}:(x_1,x_2,\cdots,x_k) \mapsto \mathcal{A}\left( U \begin{pmatrix}
+        \diag(x_1,\cdots,x_k) & 0 \\
+        0 & 0
+    \end{pmatrix}_{m\times n} V^T\right).\]
+    If \(\Null{\mathcal{B}}\cap C(S) = \{0\}\), then \(X^\ast=X_0\), where \(X^\ast\) is the optimal point of the relaxed convex problem by the nuclear norm: 
+    \[\begin{aligned}
+        \minimize & \sum_{i=1}^k\left(\sigma_i\right)_X\\
+        \subjectto & \mathcal AX=b.
+    \end{aligned}\]
+    where \((\sigma_i)_X\) is the \(i\)-th singular value of \(X\).
+\end{theorem}
+
+\begin{remark}
+    \begin{enumerate}[(1)]
+        \item \(\sum_{i=1}^{k} (\sigma_i)_X\) is called the \emph{nuclear norm} of \(X\) denoted by \(\norm{X}_\ast\).
+        \item The condition \(\Null{\mathcal{B}}\cap C(S) = \{0\}\) is called \emph{restricted nullspace property} (RNP).
+    \end{enumerate}
+\end{remark}
+
+This problem can be generated by a easier problem with vector variable called \(\ell_0,\ell_1\)-norm optimization. So the proof will be given in section 2.4 Relaxation.
+
+\subsection{Positive semi-definite constraint}
+
+If we also require the variable \(X\) is positive semidefinite, then we get the following problem 
+\[\begin{aligned}
+    \minimize & \Tr X\\
+    \subjectto & \mathcal AX=b\\
+    & X\succeq 0.
+\end{aligned}\]
+which is an SDP problem. Since \(X\) is positive semidefinite, then it is symmetric and all eigenvalues positive. Hence, the trace of \(X\) is the sum of its eigenvalues as well as the sum of singular values (nuclear norm).
+
+Further, to reduce the number of constraints, we can move the equality constraint into the objective function, then we get
+\[\begin{aligned}
+    \minimize & \alpha\Tr X+\frac12\norm{\mathcal AX-b}\\
+    \subjectto & X\succeq 0.
+\end{aligned}\]
+Here, \(\alpha\) is a scalar regularization variable that directly trades off goodness for complexity of fit. Its optimal value depends upon the assumed noise level in practice.
+
+\subsection{Relaxation}
+
+It's not easy to find a good transformation from the original problem to a convex problem. So let us look in to a relatively easy problem. And from this problem, we can get some inspiration\cite{horstmeyer2015solving}.
+
+\begin{definition}[\(\ell_0\)-minimization]
+    Given $A \in \R^{n \times d}$ and $y \in \R^n, x \in \R^d$, the \emph{\(\ell_0\)-minimization} problem is of the form
+    \[\begin{aligned}
+        \minimize & \norm x_0\\
+        \subjectto & Ax=y.
+    \end{aligned}\]
+\end{definition}
+
+\begin{definition}[\(\ell_1\)-minimization]
+    Given $A \in \R^{n \times d}$ and $y \in \R^n, x \in \R^d$, the \emph{\(\ell_1\)-minimization} problem is of the form
+    \[\begin{aligned}
+        \minimize & \norm x_1\\
+        \subjectto & Ax=y.
+    \end{aligned}\]
+\end{definition}
+
+\begin{problem}[Exact 3-cover]\label{prb:exact-three-cover}
+    Given a collection \(\{T_i\}\) of 3-element subsets of \(\{1,2,\cdots,n\}\), the \emph{exact 3-cover problem} is to find an exact cover of \(\{1,2,\cdots,n\}\) and a set \(Z \subset \{1,2,\cdots,d\}\) such that \(\cup_{j \in Z}T_j = \{1,2,\cdots,n\}\) and \(T_i \cap T_j = \varnothing\) for \(j \neq j^\prime\in Z\).
+\end{problem}
+
+\begin{remark}
+    Problem (\ref{prb:exact-three-cover}) is a well known NP-hard problem. The proof is omitted here.
+\end{remark}
+
+\begin{theorem}
+    $\ell_0$-minimization for general $A$ and $y$ is NP-hard.
+\end{theorem}
+\begin{proof}
+    Define matrix $A$ as
+    \[A_{ij}=\begin{cases}
+        1, & \text{if } i \in T_j\\
+        0, & \otherwise
+    \end{cases}\]
+    and y as the all ones vector. Note that from our construction we have $\norm{Ax}_0 \leq 3\norm{x}_0$, since each column of $A$ has 3 non-zeros. if x satisfies $Ax = y$, we thus have $\norm{x}_0 \geq \norm y_0/3 = n/3$. Let us now run $\ell_0$-minimization on $A$, $y$ and let \(\hat{x}\) be the output. There are two cases
+    \begin{enumerate}
+        \item if $\norm{x}_0 = n/3$, then $y = \supp(\hat{x})$ is an exact 3-cover.
+        \item if $\norm{x}_0 > n/3$, then no exact 3-cover can exist because it would achieve $\norm{x}_0 = n/3$ and hence violate optimality of the solution derived through $\ell_0$-minimization.
+    \end{enumerate}
+    Thus since we can solve exact 3-cover through $\ell_0$ minimization must also be NP-hard.
+\end{proof}
+
+Although $\ell_0$-minimization is NP-hard in general, we will prove that for a restricted class of $A$, we can relax $\ell_0$-minimization to \(\ell_1\)-minimization.
+
+Recall that the nullspace of matrix $A$ is the set $\Null A=\left\{\Delta \in\R^d \mid A \Delta=0\right\}$. The nullspace is the set of ``bad'' vectors in our estimation problem. Consider a solution $A x=y$. If $\Delta \in\Null A$, then $x+\Delta$ is also a solution since $A(x+\Delta)=A x+A \Delta=$ $A x=b$. Thus, we focus on matrices whose nullspace only contains zero on the set of sparse vectors that we care about.
+
+\begin{definition}
+    The matrix A satisfies the restricted nullspace property (RNP) with respect to the support \(S\) if $C(S) \cup \Null A=\{0\}$.
+\end{definition} 
+
+With these definitions in place, we can now state our main theorem.
+
+\begin{theorem}
+    Given $A \in \R^{n\by d}$ and $y \in \R^n$ we consider the solution to the $\ell_0$-minimization problem $x^\ast=\arg\min_{A x=y}\norm x_{0}$. Assume \(x^\ast\) has support \(S\) and let the matrix $A$ satisfy the restricted nullspace property with respect to \(S\). Then given the solutions of the \(\ell_1\)-minimization problem $\hat{x}=\arg\min_{A x=y}\norm x_{1}$ we have $\hat{x}=x^\ast$.
+\end{theorem}
+
+\begin{proof}
+We first note that by definition both \(x^\ast\) and \(\hat{x}\) satisfy our feasibility constraint $A x=y$. Letting $\Delta=\widehat{x}-x^\ast$ be the error vector we have $A \Delta=A \hat{x}-A x^\ast=0$, which implies that \(\Delta\in\Null A\).
+
+Our goal now is to show that \(\Delta\in C(S)\) then we would have \(\Delta=0\) from the restricted nullspace property. First, since \(\hat{x}\) is optimal in \(\ell_1\) it follows that $\|\widehat{x}\|_{1} \leqslant\left\|x^\ast\right\|_{1}$. We then have
+\[\begin{aligned}
+    \norm{x^\ast_S}_1 &= \norm{x^\ast}_1\geqslant \norm{\hat x}_1\\
+    &= \norm{x^\ast+\Delta}_1\\
+    &= \norm{x^\ast_S+\Delta_S}_1+\norm{x^\ast_{\bar S}+\Delta_{\bar S}}_1\quad\textnormal{(by splitting the }\ell_1\textnormal{ norm)}\\
+    &= \norm{x^\ast_S+\Delta_S}_1+\norm{\Delta_{\bar S}}_1\quad\textnormal{(by the support assumption of }\norm{x^\ast}_1\textnormal{)}\\
+    &\geqslant \norm{x^\ast_S}_1-\norm{\Delta_S}_1+\norm{\Delta_{\bar S}}_1.
+\end{aligned}\]
+Hence \(\norm{\Delta_S}_1\geqslant\norm{\Delta_{\bar S}}_1\), which implies \(\Delta\in C(S)\).
+\end{proof}
+
+So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. 
+
+A natural question however is what kinds of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
+
+\section{Solution}
+
+\subsection{Gradient-like Descent Method}
+
+\subsection{Convergence analysis}
+
+\section{Implementation}
+
+\subsection{Code}
+
+\subsection{Result}
+
+
+\section{Conclusion}
+
+\bibliographystyle{IEEEtran}
+
+\bibliography{references.bib}
+
+\end{document}
