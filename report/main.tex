@@ -213,6 +213,100 @@ Hence \(\norm{\Delta_S}_1\geqslant\norm{\Delta_{\bar S}}_1\), which implies \(\D
 
 So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. A natural question, however, is what kind of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
 
+\begin{definition}
+    A matrix A satisfies the \((s,\delta)\)-RIP if for all s-sparse vectors \(x(\norm{x}_0 \leq s)\), we have
+    \[(1 - \delta)\norm{x}_2^2 \leq \norm{Ax}^2_2 \leq (1 + \delta)\norm{x}^2_2.\]
+\end{definition}
+
+The intuition is that \(A\) acts like an isometry on sparse vectors. The RIP is useful sinse it implies that the difference between two s-sparse vectors cannot mapped to 0. By looking at the singular values of \(A\), we can derive the following lemma.
+
+\begin{lemma}
+    If \(A\) satisfies the \((s,\delta)\)-RIP, then 
+    \[\norm{A^\top_SA_S-I_S}_2 \leq \delta\]
+    for all subsets \(S\) of size \(s\). Where 
+    \[(A_S)_{ij} = 
+    \begin{cases}
+        A_{ij} \quad &\textnormal{if } j \in S\\
+        0 &o.w.
+    \end{cases}
+    \]
+\end{lemma}
+
+We now show that the RIP implies the restricted nullspace property.
+
+\begin{theorem}
+    If the matrix has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality
+\end{theorem}
+
+\begin{theorem}
+    If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(|S| \leq s\).
+\end{theorem}
+
+\begin{proof}
+Let $x \in \operatorname{null}(A)$ be arbitrary but not equal to 0 . Then we have to show that $x \notin C(S)$ for any $S$ with $|S| \leqslant s$. In particular, let $S_{0}$ be the set indices of the $s$ largest coefficients in $x$. It suffices to show that $\left\|x_{S_{0}}\right\|_{1}<\left\|x_{\bar{S}_{0}}\right\|_{1}$ since it would then hold for any other subset.
+We write
+$$
+\bar{S}_{0}=\bigcup_{j=1}^{\left\lceil\frac{d}{s}\right\rceil-1} S_{j}
+$$
+where
+\begin{itemize}
+    \item $S_{1}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0}$
+    \item $S_{2}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0} \backslash S_{1}$
+    \item $S_{3}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0} \backslash S_{1} \backslash S_{2}$
+    \item etc...
+\end{itemize}
+So we have $x=x_{S_{0}}+\sum_{j} x_{S_{j}}$. We have decomposed $x$ into blocks of size s. This is sometimes called shelling. From RIP, we have
+$$
+\left\|x_{S_{0}}\right\|_{2}^{2} \leqslant \frac{1}{1-\delta}\left\|A x_{S_{0}}\right\|_{2}^{2}
+$$
+Since $x \in \operatorname{null}(A)$ by assumption we have
+$$
+\begin{aligned}
+& A\left(x_{S_{0}}+\sum_{j \geqslant 1} x_{S_{j}}\right)=0 \\
+\Longrightarrow & A x_{S_{0}}=-\sum_{j \geqslant 1} A x_{S_{j}}
+\end{aligned}
+$$   
+Hence
+$$
+\begin{aligned}
+\left\|x_{S_{0}}\right\|_{2}^{2} & \leqslant \frac{1}{1-\delta}\left\|A x_{S_{0}}\right\|_{2}^{2} & \\
+& =\frac{1}{1-\delta}\left\langle A x_{S_{0}}, A x_{S_{0}}\right\rangle & \\
+& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle A x_{S_{0}}, A x_{S_{j}}\right\rangle & \\
+& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle A x_{S_{0^{\prime}}}-A x_{S_{j}}\right\rangle & \\
+& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left(\left\langle A x_{S_{0}},-A x_{S_{j}}\right\rangle-\left\langle x_{S_{0},} x_{S_{j}}\right\rangle\right) & \text { since }\left\langle x_{S_{0}}, x_{S_{j}}\right\rangle=0 \\
+& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle x_{S_{0}},\left(I-A^{\top} A\right) x_{S_{j}}\right\rangle & \\
+& \leqslant \frac{1}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{0}}\right\|_{2} \delta\left\|x_{S_{j}}\right\|_{2} & 
+\end{aligned}
+$$
+So we have
+$$
+\left\|x_{S_{0}}\right\|_{2} \leqslant \frac{\delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j}}\right\|_{2}
+$$
+By construction, for each $j \geqslant 1$, we have
+$$
+\left\|x_{s_{j}}\right\|_{\infty} \leqslant \frac{1}{S}\left\|X_{S_{j-1}}\right\|_{1}
+$$
+and hence
+$$
+\left\|x_{s_{j}}\right\|_{2} \leqslant \frac{1}{\sqrt{S}}\left\|X_{S_{j-1}}\right\|_{1} .
+$$
+Then we get
+$$
+\begin{aligned}
+\left\|x_{S_{0}}\right\|_{1} & \leqslant \sqrt{S}\left\|x_{S_{0}}\right\|_{2} \\
+& \leqslant \frac{\sqrt{S} \delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j}}\right\|_{2} \\
+& \leqslant \frac{\delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j-1}}\right\|_{1} \\
+& \leqslant \frac{\delta}{1-\delta}\left(\left\|x_{s_{0}}\right\|_{1}+\sum_{j \geqslant 1}\left\|x_{S_{j-1}}\right\|_{1}\right)
+\end{aligned}
+$$
+which is equivalent to
+$$
+\left\|x_{s_{0}}\right\|_{1} \leqslant \frac{\delta}{1-\delta}\left(\left\|x_{s_{0}}\right\|_{1}+\left\|x_{\bar{s}_{0}}\right\|_{1}\right) .
+$$
+Simple algebra gives us $\left\|x_{s_{0}}\right\|_{1} \leqslant\left\|x_{\bar{s}_{0}}\right\|_{1}$ as long as $\delta<\frac{1}{2}$.
+\end{proof}
+
+
 \section{Solution}
 
 \subsection{Gradient-like Descent Method}
