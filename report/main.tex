@@ -330,7 +330,15 @@ X_{k+1}=X_{k}-s_{k} \Pi_{\mathcal{A}} Y_{k},
 \]
 where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\).
 
-To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the above proposition, which is quite a hard task. However, 
+To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the above proposition, which is a quite hard task. However, we only need \(UV^T\) rather than the whole information of SVD. So we can use a iterative method to find \(UV^T\) as the "angular" factor of the polar decomposition.
+
+\begin{proposition}
+    Let the SVD of \(X\) is \(U\Sigma V^T\), then the polar decomposition of it can be written as \(X=\tilde{U} \tilde{P}\), where
+    \[\tilde{U}=U V^T,\qquad \tilde{P}=V\Sigma V^T,\]
+    satisfying that \(\tilde{U}\) is orthogonal and \(\tilde{P}\) is positive semidefinite.
+\end{proposition}
+
+This proposition shows that \(\tilde{U}\) is what we actually need.
 \subsection{Convergence analysis}
 
 \section{Implementation}
