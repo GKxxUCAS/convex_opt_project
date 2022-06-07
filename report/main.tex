@@ -73,13 +73,13 @@ Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effecti
 \subsection{Equality Constraints}
 
 First, we consider a standard form of low-rank problem, which has only one linear equality constraint.
-\begin{problem}[Low-rank minimization]
+\begin{definition}[Low-rank minimization]
     Let \(\mathcal{A}:\R^{m\by n}\to \R^p\) be a linear map and \(b\in \R^p\), the \emph{low-rank minimization} problem is of the form 
     \[\begin{aligned}
         \minimize & \rank X\\
         \subjectto & \mathcal A(X)=b.
     \end{aligned}\]
-\end{problem}
+\end{definition}
 
 Clearly, \(\rank(\cdot)\) is not a convex function, then this is not a convex optimization problem, though it always has a optimal value. However, if we attach some conditions, we can find a convex problem to relax it tightly, i.e. an optimal point of the relaxed convex problem is also an optimal point of the original problem. Now, we define some notations:
 
@@ -237,10 +237,6 @@ The intuition is that \(A\) acts like an isometry on sparse vectors. The RIP is 
 We now show that the RIP implies the restricted nullspace property.
 
 \begin{theorem}
-    If the matrix has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality
-\end{theorem}
-
-\begin{theorem}
     If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(|S| \leq s\).
 \end{theorem}
 
@@ -307,7 +303,6 @@ $$
 $$
 Simple algebra gives us $\left\|x_{s_{0}}\right\|_{1} \leqslant\left\|x_{\bar{s}_{0}}\right\|_{1}$ as long as $\delta<\frac{1}{2}$.
 \end{proof}
-
 
 \section{Solution}
 

@@ -10,7 +10,7 @@
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\green}[1]{\textcolor{green}{#1}}
 
-\usetheme{Berlin}
+\usetheme{Montpellier}
 \usecolortheme{spruce}
 
 \title{Application of Convex Relaxation on Low-rank Optimization Problems}
@@ -162,7 +162,67 @@
 
 \subsection{Relaxation}
 
-\begin{frame}
+\begin{frame}{An Easier Problem}
+    The \(\ell_0\)-minimization problem:
+    \[\begin{aligned}
+        \minimize & \norm x_0\\
+        \subjectto & Ax=y,
+    \end{aligned}\]
+    where \(A\in\R^{n\by d}\) and \(y\in\R^n\).
+    \begin{itemize}
+        \item The \(\ell_0\)-norm \textbf{isn't} a real norm.
+        \item \(\norm x_0\) is \textbf{not} convex.
+        \item \(\ell_0\)-minimization problem is NP-hard.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Exact 3-cover Problem}
+    \begin{definition}[Exact 3-cover]
+        Given a collection \(\left\{T_i\right\}\) of \(3\)-element subsets \(\{1,\cdots,n\}\), the \emph{exact 3-cover problem} is to find an exact cover of \(\left\{1,\cdots,n\right\}\) and a set \(Z\subseteq\{1,\cdots,d\}\) such that
+        \[\bigcup_{j\in Z}T_j=\{1,2,\cdots,n\}\]
+        and \(T_i\cap T_j=\varnothing\) for \(i\neq j\in Z\).
+    \end{definition}
+    \begin{itemize}
+        \item NP-hard.
+        \item Could be reduced to \(\ell_0\)-minimization, thus the latter is NP-hard.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Relaxation}
+    Relax to the \(\ell_1\)-minimization problem:
+    \[\begin{aligned}
+        \minimize & \norm x_1\\
+        \subjectto & Ax=y.
+    \end{aligned}\]
+    \begin{itemize}
+        \item A convex relaxation.
+        \item Under what circumstances is this relaxation tight?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Relaxation}
+    \begin{theorem}
+        Let \(x^\ast\) be the optimal solution of the \(\ell_0\)-minimization problem and \(\supp(x)=S\). If \(A\) satisfy the restricted nullspace property with respect to \(S\), then the optimal solution to the associated \(\ell_1\)-minimization problem is also \(x^\ast\).
+    \end{theorem}
+    \begin{proof}[Proof Sketch]
+        Let \(\Delta=\widehat x-x^\ast\) be the error vector, where \(\widehat x\) is the solution to the \(\ell_1\)-minimization problem. Then \(\Delta\in\Null A\). We only need to show \(\Delta\in C(S)\).
+    \end{proof}
+\end{frame}
+
+\begin{frame}{Restricted Isometry Property}
+    \begin{definition}[Restricted Isometry Property, RIP]
+        A matrix \(A\) satisfies the \((s,\delta)\)-RIP if for all \(s\)-sparse vectors \(x\) (i.e. \(\norm x_0\leqslant s\)), we have
+        \[(1-\delta)\norm x_2^2\leqslant\norm{Ax}_2^2\leqslant(1+\delta)\norm x_2^2.\]
+    \end{definition}
+    \begin{itemize}
+        \item \(A\) acts like an isometry on sparse vectors.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{RIP \(\Rightarrow\) RNP}
+    \begin{theorem}
+        If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(\abs S\leqslant s\).
+    \end{theorem}
 \end{frame}
 
 \end{document}
