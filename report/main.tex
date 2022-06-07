@@ -3,6 +3,8 @@
 \usepackage{amsmath, amssymb, amsthm, mathrsfs, euler}
 \usepackage{enumerate}
 \usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
 
 \usepackage{../defs}
 \usepackage{../thmdefs}
@@ -71,7 +73,7 @@ Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effecti
 \subsection{Equality Constraints}
 
 First, we consider a standard form of low-rank problem, which has only one linear equality constraint.
-\begin{definition}[Low-rank minimization]
+\begin{definition}[Low-rank minimization]\label{p:lr}
     Let \(\mathcal{A}:\R^{m\by n}\to \R^p\) be a linear map and \(b\in \R^p\), the \emph{low-rank minimization} problem is of the form 
     \[\begin{aligned}
         \minimize & \rank X\\
@@ -282,11 +284,18 @@ which is equivalent to
 Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as long as \(\delta<\frac{1}{2}\).
 \end{proof}
 
+<<<<<<< HEAD
+Now, we come back to low-rank minimization(problem \ref{p:lr}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
+We found that the relation between the rank and the nuclear norm  is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank is equal to the number of nonzero singular values and the nucealr norm is the sum of the absolute value of singular, while the \(\ell_0\) norm is equal to the number of nonzero component of a vector and \(\ell_1\) norm
+=======
+>>>>>>> 4e0f176b4ec1ae1c698e3fee6167990228e919a8
 \section{Solution}
 
-\subsection{Projected subgradient methods}
+\subsection{Subgradient}
 
-Since the nuclear norm is not differentiable, gradient descent method is not suitable for low-rank optimization. However, we can use the subgardient instead of the real subgradient. Correspondingly, it does not guarantee the rate of convergence.
+Since the nuclear norm is not differentiable, gradient descent method is not suitable for low-rank optimization. However, we can use the subgradient instead of the real subgradient. Correspondingly, it does not guarantee the rate of convergence.
+
+
 
 \begin{definition}[Subgradient]
     Let \(f:\R^n \to \R\) and its \emph{subgradient} at \(x_0\) is a set defined by
@@ -296,6 +305,31 @@ Since the nuclear norm is not differentiable, gradient descent method is not sui
 \begin{remark}
     If \(f\) is continuous at \(x_0\), then \(\partial f(x_0) \neq \varnothing\).
 \end{remark}
+
+Here we give an illustration of subgradient in \(\R^1\):
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{img/Subderivative_illustration.png}
+    \setlength{\abovecaptionskip}{0cm}
+    \caption{An illustration of subgradient}
+    \label{fig:subgradient}
+\end{figure}
+
+In the figure \ref{fig:subgradient}, the red lines give two feasible directions of the subgradient of the blue function at \(x_0\).
+
+The subgradient of the nuclear norm at \(X_0\) is given by \cite{lewis2003mathematics},\cite{watson1992characterization}
+\[\partial \norm{X_0}_* = \{UV^T+W \mid W \text{ and } X \text{have orthogonal row/column spaces and } \norm{W} \leqslant 1 \}.\]
+
+\subsection{Projected subgradient methods}
+
+Considering the affine equality constraint of low-rank optimization, the iteration method should satisfy
+\[X_{k+1}= \Pi(X_k-s_k Y_k), \qquad Y_k \in \partial (\norm{X_k}_*),\]
+
+where \(\Pi\) is the orthogonal projection onto the affine subspace defined by the linear constraints \(\mathcal{A}(X)=b\) and \(s_{k}>0\) is a stepsize parameter. Alternatively, since \(X_{k}\) is feasible, we can rewrite this as
+\[
+X_{k+1}=X_{k}-s_{k} \Pi_{\mathcal{A}} Y_{k},
+\]
+where \(\Pi_{\mathcal{A}}\) is the orthogonal projection onto \(\mathcal{N}(\mathcal{A})\). 
 
 \subsection{Convergence analysis}
 
