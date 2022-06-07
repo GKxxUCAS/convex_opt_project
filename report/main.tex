@@ -73,7 +73,7 @@ Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effecti
 \subsection{Equality Constraints}
 
 First, we consider a standard form of low-rank problem, which has only one linear equality constraint.
-\begin{definition}[Low-rank minimization]\label{p:lr}
+\begin{definition}[Low-rank minimization]\label{def:lowrank}
     Let \(\mathcal{A}:\R^{m\by n}\to \R^p\) be a linear map and \(b\in \R^p\), the \emph{low-rank minimization} problem is of the form 
     \[\begin{aligned}
         \minimize & \rank X\\
@@ -284,8 +284,8 @@ which is equivalent to
 Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as long as \(\delta<\frac{1}{2}\).
 \end{proof}
 
-Now, we come back to low-rank minimization(problem \ref{p:lr}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
-We found that the relation between the rank and the nuclear norm  is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank is equal to the number of nonzero singular values and the nucealr norm is the sum of the absolute value of singular, while the \(\ell_0\) norm is equal to the number of nonzero component of a vector and \(\ell_1\) norm
+Now, we come back to low-rank minimization (Problem \ref{def:lowrank}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
+We found that the relation between the rank and the nuclear norm is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank of a matrix is equal to the number of nonzero singular values, and the nuclear norm is the sum of the absolute value of singular.
 
 \section{Solution}
 
