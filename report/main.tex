@@ -309,7 +309,18 @@ Simple algebra gives us $\left\|x_{s_{0}}\right\|_{1} \leqslant\left\|x_{\bar{s}
 
 \section{Solution}
 
-\subsection{Gradient-like Descent Method}
+\subsection{Projected subgradient methods}
+
+Since the nuclear norm is not differentiable, gradient descent method is not suitable for low-rank optimization. However, we can use the subgardient instead of the real subgradient. Correspondingly, it does not guarantee the rate of convergence.
+
+\begin{definition}
+    Let \(f:\R^n \to \R\) and its \emph{subgradient} at \(x_0\) is a set defined by
+    \[\partial f(x_0) := \{d \in \R^n \mid f(y)\geqslant f(x_0) + d^T (y-x_0),\forall y \in \R^n\}.\]
+\end{definition}
+
+\begin{remark}
+    If \(f\) is continuous at \(x_0\), then \(\partial f(x_0) \neq \varnothing\).
+\end{remark}
 
 \subsection{Convergence analysis}
 
