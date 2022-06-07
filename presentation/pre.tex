@@ -17,6 +17,12 @@
 \author{GKxx, Jayncp, ZYP}
 \date{\today}
 
+\AtBeginSubsection{
+    \begin{frame}{Contents}
+        \tableofcontents[currentsection, currentsubsection]
+    \end{frame}
+}
+
 \begin{document}
 
 \begin{frame}
@@ -27,7 +33,9 @@
     \tableofcontents
 \end{frame}
 
-\section{Convex Relaxation: Introduction}
+\section{Convex Relaxation}
+
+\subsection{Introduction}
 
 \begin{frame}{Solve Non-convex Problems}
     Typical ways of solving non-convex problems:
@@ -223,6 +231,49 @@
     \begin{theorem}
         If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(\abs S\leqslant s\).
     \end{theorem}
+\end{frame}
+
+\begin{frame}{Relationship}
+    \begin{center}
+        \begin{tabular}{|ll|}
+            \hline
+            \(\norm x_0\): & Number of nonzero elements in \(x\).\\
+            \(\rank(X)\): & Number of nonzero singular values of \(X\).\\
+            \hline\hline
+            \(\norm x_1\): & Sum of absolute values of components of \(x\).\\
+            \(\norm X_\ast\): & Sum of singular values of \(X\).\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\section{Solution}
+
+\subsection{Projected Subgradient Methods}
+
+\begin{frame}{Subgradient}
+    The nuclear norm is not differentiable.
+    \pause
+    \begin{definition}[Subgradient]
+        Let \(f:\R^n\to\R\) and its subgradient at \(x_0\) is a set defined by
+        \[\partial f\left(x_0\right):=\left\{d\in\R^n\mid f(y)\geqslant f\left(x_0\right)+d^T\left(y-x_0\right),\forall y\in\R^n\right\}.\]
+    \end{definition}
+    \pause
+    \begin{itemize}
+        \item If \(f\) is continuous at \(x_0\), then \(\partial f\left(x_0\right)\neq\varnothing\).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Subgradient}
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{img/Subderivative_illustration.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Subgradient}
+    Subgradient of the nuclear norm at \(X_0\):
+    \[\partial\norm{X_0}_\ast=\left\{UV^T+W\right\},\]
+    where \(W\) and \(X\) have orthogonal row/column spaces, \(\norm W\leqslant 1\), and \(X_0=U\Sigma V^T\) is the SVD of \(X_0\).
 \end{frame}
 
 \end{document}
