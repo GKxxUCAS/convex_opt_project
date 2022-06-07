@@ -339,7 +339,11 @@ To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the ab
 \end{proposition}
 
 This proposition shows that \(\tilde{U}\) is what we actually need.
+
+We have some effective methods to get a numerical approximation of the polar decomposition, such as the \emph{Hally's method}\cite{nakatsukasa2010optimizing}
+\[\tilde{U}_{n+1} = \tilde{U}_{n}\left(3 I+\tilde{U}_{n}^{T} \tilde{U}_{n}\right)\left(I+3 \tilde{U}_{n}^{T} \tilde{U}_{n}\right)^{-1}, \quad \tilde{U}_{0}=X_k.\] 
 \subsection{Convergence analysis}
+Regarding convergence, for most nonsmooth problems, subgradient methods do not guarantee a decr 
 
 \section{Implementation}
 
