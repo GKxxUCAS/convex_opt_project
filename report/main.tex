@@ -39,7 +39,7 @@ In this project, we mainly focus on the third method. The core idea of convex re
 
 Recently, low-rank problems, such as affine constrained rank minimization problems (ARMP), have received considerable attention from the computer vision communities, among many other research communities in science and engineering. In the area of computer vision, a wide range of problems can be, and have been, represented under this low-rank or rank-minimization framework. Low-rank models have been used to interpret/approximate in high dimension and for large scale measurements. The low-rank formulation seems to be able to effectively capture the low-order structure of the underlying problems.
 
-In general, low-rank problem is to optimize the rank of a matrix with a series of constraints. Here, we show some examples of this kind of problems.
+In general, a low-rank problem is to optimize the rank of a matrix with a series of constraints. We first show some examples of problems of this kind.
 
 \begin{example}
     In non-rigid structure-from-motion (NRSfM), a recent work by Dai \emph{et al.} showed that under rank minimization formulation to NRSfM factorization
@@ -62,10 +62,10 @@ In general, low-rank problem is to optimize the rank of a matrix with a series o
         \minimize & \norm Z_\ast+\norm L_\ast\\
         \subjectto & X=XZ+LX
     \end{aligned}\]
-    By analyzing the noiseless LatLRR model, Zhang \emph{et al.} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique.\cite{dai2014rank}
+    By analyzing the noiseless LatLRR model, Zhang \emph{et al.} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique \cite{dai2014rank}.
 \end{example}
 
-Although in Example (\ref{eg:latlrr}) the nuclear norm does not provide an effective relaxation, it still works well as convex relaxation under particular conditions, which is our main topic.
+Although in Example \ref{eg:latlrr} the nuclear norm does not provide an effective relaxation, it still works well as convex relaxation under particular conditions, which is our main topic.
 
 \subsection{Equality Constraints}
 
@@ -162,7 +162,7 @@ It's not easy to find a good transformation from the original problem to a conve
 \end{problem}
 
 \begin{remark}
-    Problem (\ref{prb:exact-three-cover}) is a well known NP-hard problem. The proof is omitted here.
+    Problem \ref{prb:exact-three-cover} is a well known NP-hard problem. The proof is omitted here.
 \end{remark}
 
 \begin{theorem}
@@ -179,7 +179,7 @@ It's not easy to find a good transformation from the original problem to a conve
         \item if \(\norm{x}_0 = n/3\), then \(y = \supp(\widehat{x})\) is an exact 3-cover.
         \item if \(\norm{x}_0 > n/3\), then no exact 3-cover can exist because it would achieve \(\norm{x}_0 = n/3\) and hence violate optimality of the solution derived through \(\ell_0\)-minimization.
     \end{enumerate}
-    Thus since we can solve exact 3-cover through \(\ell_0\) minimization must also be NP-hard.
+    Thus since we can solve exact 3-cover by solving an \(\ell_0\)-minimization, the latter must also be NP-hard.
 \end{proof}
 
 Although \(\ell_0\)-minimization is NP-hard in general, we will prove that for a restricted class of \(A\), we can relax \(\ell_0\)-minimization to \(\ell_1\)-minimization.
@@ -210,9 +210,7 @@ Our goal now is to show that \(\Delta\in C(S)\) then we would have \(\Delta=0\) 
 Hence \(\norm{\Delta_S}_1\geqslant\norm{\Delta_{\bar S}}_1\), which implies \(\Delta\in C(S)\).
 \end{proof}
 
-So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. 
-
-A natural question however is what kinds of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
+So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. A natural question, however, is what kind of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
 
 \section{Solution}
 
