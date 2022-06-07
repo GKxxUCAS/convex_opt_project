@@ -284,18 +284,13 @@ which is equivalent to
 Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as long as \(\delta<\frac{1}{2}\).
 \end{proof}
 
-<<<<<<< HEAD
 Now, we come back to low-rank minimization(problem \ref{p:lr}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
 We found that the relation between the rank and the nuclear norm  is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank is equal to the number of nonzero singular values and the nucealr norm is the sum of the absolute value of singular, while the \(\ell_0\) norm is equal to the number of nonzero component of a vector and \(\ell_1\) norm
-=======
->>>>>>> 4e0f176b4ec1ae1c698e3fee6167990228e919a8
 \section{Solution}
 
 \subsection{Subgradient}
 
 Since the nuclear norm is not differentiable, gradient descent method is not suitable for low-rank optimization. However, we can use the subgradient instead of the real subgradient. Correspondingly, it does not guarantee the rate of convergence.
-
-
 
 \begin{definition}[Subgradient]
     Let \(f:\R^n \to \R\) and its \emph{subgradient} at \(x_0\) is a set defined by
