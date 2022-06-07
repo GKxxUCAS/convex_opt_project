@@ -49,7 +49,7 @@ In general, a low-rank problem is to optimize the rank of a matrix with a series
     \[\begin{aligned}
         \minimize & \rank(S^{\sharp})\\
         \subjectto & W=RS\\
-        & S^{\sharp}:=\bvec{P_X & P_Y & P_Z}\left(I_3\otimes S\right)=g(S)
+        & S^{\sharp}:=\bvec{P_X & P_Y & P_Z}\left(I_3\otimes S\right)=g(S),
     \end{aligned}\]
     there exist configurations such that multiple solutions explain the same measurements exactly.
 \end{example}
@@ -58,12 +58,12 @@ In general, a low-rank problem is to optimize the rank of a matrix with a series
     Latent low rank representation (LatLRR) model:
     \[\begin{aligned}
         \minimize & \rank Z+\rank L\\
-        \subjectto & X=XZ+LX
+        \subjectto & X=XZ+LX.
     \end{aligned}\]
     The nuclear norm minimization formulation for LatLRR is:
     \[\begin{aligned}
         \minimize & \norm Z_\ast+\norm L_\ast\\
-        \subjectto & X=XZ+LX
+        \subjectto & X=XZ+LX.
     \end{aligned}\]
     By analyzing the noiseless LatLRR model, Zhang \emph{et al.} \cite{zhang2013counterexample} showed that for this rank minimization problem the validity of replacing rank minimization with nuclear norm minimization may still break down. Furthermore, they proved that the solution to the nuclear norm minimization formulation of LatLRR is non-unique \cite{dai2014rank}.
 \end{example}
@@ -91,10 +91,10 @@ Clearly, \(\rank(\cdot)\) is not a convex function, then this is not a convex op
 \begin{definition}[Approximately sparse vectors]
     \emph{The set of approximately sparse vectors} with support \(S\) is 
     \[C(S):=\left\{\Delta \in \R^d \mid \norm{\Delta_{\bar{S}}}_1\leqslant \norm{\Delta_S}_1\right\},\]
-    where \(S\) is a subset of \([d]:=\{1,2,\cdots,d\}\), \(\bar{S}=[d]-S\) and \(\Delta_S\) is \(\Delta\) restricted to \(S\),
+    where \(S\) is a subset of \([d]:=\{1,2,\cdots,d\}\), \(\bar{S}=[d]\setminus S\) and \(\Delta_S\) is \(\Delta\) restricted to \(S\),
     \[(\Delta_S)_i = \begin{cases}
         \Delta_i, & i \in S,\\
-        0, & \otherwise
+        0, & \otherwise.
     \end{cases}\]
 \end{definition}
 
@@ -174,8 +174,8 @@ It's not easy to find a good transformation from the original problem to a conve
 \begin{proof}
     Define matrix \(A\) as
     \[A_{ij}=\begin{cases}
-        1, & \text{if } i \in T_j\\
-        0, & \otherwise
+        1, & \text{if } i \in T_j,\\
+        0, & \otherwise,
     \end{cases}\]
     and y as the all ones vector. Note that from our construction we have \(\norm{Ax}_0 \leqslant 3\norm{x}_0\), since each column of \(A\) has 3 non-zeros. if x satisfies \(Ax=y\), we thus have \(\norm{x}_0 \geqslant \norm y_0/3 = n/3\). Let us now run \(\ell_0\)-minimization on \(A\), \(y\) and let \(\widehat{x}\) be the output. There are two cases
     \begin{enumerate}
@@ -216,92 +216,72 @@ Hence \(\norm{\Delta_S}_1\geqslant\norm{\Delta_{\bar S}}_1\), which implies \(\D
 So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. A natural question, however, is what kind of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
 
 \begin{definition}
-    A matrix A satisfies the \((s,\delta)\)-RIP if for all s-sparse vectors \(x(\norm{x}_0 \leq s)\), we have
-    \[(1 - \delta)\norm{x}_2^2 \leq \norm{Ax}^2_2 \leq (1 + \delta)\norm{x}^2_2.\]
+    A matrix A satisfies the \((s,\delta)\)-RIP if for all s-sparse vectors \(x(\norm{x}_0 \leqslant s)\), we have
+    \[(1 - \delta)\norm{x}_2^2 \leqslant \norm{Ax}^2_2 \leqslant (1 + \delta)\norm{x}^2_2.\]
 \end{definition}
 
 The intuition is that \(A\) acts like an isometry on sparse vectors. The RIP is useful sinse it implies that the difference between two s-sparse vectors cannot mapped to 0. By looking at the singular values of \(A\), we can derive the following lemma.
 
-\begin{lemma}
+\begin{lemma}\label{lem:rip}
     If \(A\) satisfies the \((s,\delta)\)-RIP, then 
-    \[\norm{A^\top_SA_S-I_S}_2 \leq \delta\]
+    \[\norm{A^T_SA_S-I_S}_2 \leqslant \delta\]
     for all subsets \(S\) of size \(s\). Where 
     \[(A_S)_{ij} = 
     \begin{cases}
-        A_{ij} \quad &\textnormal{if } j \in S\\
-        0 &o.w.
-    \end{cases}
-    \]
+        A_{ij} &\textnormal{if } j \in S,\\
+        0 &\otherwise.
+    \end{cases}\]
 \end{lemma}
 
 We now show that the RIP implies the restricted nullspace property.
 
 \begin{theorem}
-    If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(|S| \leq s\).
+    If the matrix \(A\) has the \((s,\delta)\)-RIP, then it also has the restricted nullspace property for all subsets \(S\) of cardinality \(|S| \leqslant s\).
 \end{theorem}
 
 \begin{proof}
-Let $x \in \operatorname{null}(A)$ be arbitrary but not equal to 0 . Then we have to show that $x \notin C(S)$ for any $S$ with $|S| \leqslant s$. In particular, let $S_{0}$ be the set indices of the $s$ largest coefficients in $x$. It suffices to show that $\left\|x_{S_{0}}\right\|_{1}<\left\|x_{\bar{S}_{0}}\right\|_{1}$ since it would then hold for any other subset.
+Let \(x \in \Null A\) be arbitrary but not equal to 0. Then we have to show that \(x \notin C(S)\) for any \(S\) with \(|S| \leqslant s\). In particular, let \(S_{0}\) be the set indices of the \(s\) largest coefficients in \(x\). It suffices to show that \(\norm{x_{S_0}}_1<\norm{x_{\bar{S_0}}}_1\) since it would then hold for any other subset.
 We write
-$$
-\bar{S}_{0}=\bigcup_{j=1}^{\left\lceil\frac{d}{s}\right\rceil-1} S_{j}
-$$
+\[\bar{S_0}=\bigcup_{j=1}^{\left\lceil d/s\right\rceil-1} S_{j}\]
 where
 \begin{itemize}
-    \item $S_{1}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0}$
-    \item $S_{2}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0} \backslash S_{1}$
-    \item $S_{3}$ is the subset of indices corresponding to the $s$ largest entries in $\bar{S}_{0} \backslash S_{1} \backslash S_{2}$
+    \item \(S_{1}\) is the subset of indices corresponding to the \(s\) largest entries in \(\bar{S_0}\).
+    \item \(S_{2}\) is the subset of indices corresponding to the \(s\) largest entries in \(\bar{S_0} \setminus S_{1}\).
+    \item \(S_{3}\) is the subset of indices corresponding to the \(s\) largest entries in \(\bar{S_0} \setminus S_{1} \setminus S_{2}\).
     \item etc...
 \end{itemize}
-So we have $x=x_{S_{0}}+\sum_{j} x_{S_{j}}$. We have decomposed $x$ into blocks of size s. This is sometimes called shelling. From RIP, we have
-$$
-\left\|x_{S_{0}}\right\|_{2}^{2} \leqslant \frac{1}{1-\delta}\left\|A x_{S_{0}}\right\|_{2}^{2}
-$$
-Since $x \in \operatorname{null}(A)$ by assumption we have
-$$
-\begin{aligned}
-& A\left(x_{S_{0}}+\sum_{j \geqslant 1} x_{S_{j}}\right)=0 \\
-\Longrightarrow & A x_{S_{0}}=-\sum_{j \geqslant 1} A x_{S_{j}}
-\end{aligned}
-$$   
+So we have \(x=x_{S_{0}}+\sum_{j} x_{S_{j}}\). We have decomposed \(x\) into blocks of size s. This is sometimes called shelling. From RIP, we have
+\[\norm{x_{S_0}}_2^2\leqslant\frac{1}{1-\delta}\norm{Ax_{S_0}}_2^2.\]
+Since \(x \in \Null A\) by assumption we have
+\[A\left(x_{S_{0}}+\sum_{j \geqslant 1} x_{S_{j}}\right)=0\quad\Rightarrow\quad A x_{S_{0}}=-\sum_{j \geqslant 1} A x_{S_{j}}.\]
 Hence
-$$
-\begin{aligned}
-\left\|x_{S_{0}}\right\|_{2}^{2} & \leqslant \frac{1}{1-\delta}\left\|A x_{S_{0}}\right\|_{2}^{2} & \\
-& =\frac{1}{1-\delta}\left\langle A x_{S_{0}}, A x_{S_{0}}\right\rangle & \\
-& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle A x_{S_{0}}, A x_{S_{j}}\right\rangle & \\
-& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle A x_{S_{0^{\prime}}}-A x_{S_{j}}\right\rangle & \\
-& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left(\left\langle A x_{S_{0}},-A x_{S_{j}}\right\rangle-\left\langle x_{S_{0},} x_{S_{j}}\right\rangle\right) & \text { since }\left\langle x_{S_{0}}, x_{S_{j}}\right\rangle=0 \\
-& =\frac{1}{1-\delta} \sum_{j \geqslant 1}\left\langle x_{S_{0}},\left(I-A^{\top} A\right) x_{S_{j}}\right\rangle & \\
-& \leqslant \frac{1}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{0}}\right\|_{2} \delta\left\|x_{S_{j}}\right\|_{2} & 
-\end{aligned}
-$$
+\[\begin{aligned}
+    \norm{x_{S_0}}_2^2
+    &\leqslant \frac{1}{1-\delta}\norm{Ax_{S_0}}_2^2\\
+    &= \frac{1}{1-\delta}\langle Ax_{S_0},Ax_{S_0}\rangle\\
+    &= \frac{1}{1-\delta}\sum_{j\geqslant 1}\langle Ax_{S_0},Ax_{S_j}\rangle\\
+    &= \frac{1}{1-\delta}\sum_{j\geqslant 1}\langle Ax_{S_0},-Ax_{S_j}\rangle\\
+    &= \frac{1}{1-\delta}\sum_{j\geqslant 1}\left(\langle Ax_{S_0},-Ax_{S_j}\rangle-\langle x_{S_0},x_{S_j}\rangle\right)\quad\textnormal{(since }\langle x_{S_0},x_{S_j}\rangle=0\textnormal{)}\\
+    &= \frac{1}{1-\delta}\sum_{j\geqslant 1}\langle x_{S_0},\left(I-A^TA\right)x_{S_j}\rangle\\
+    &\leqslant \frac{1}{1-\delta}\sum_{j\geqslant 1}\norm{x_{S_0}}_2\delta\norm{x_{S_j}}_2\quad\textnormal{(from Lemma \ref{lem:rip})}.
+\end{aligned}\]
 So we have
-$$
-\left\|x_{S_{0}}\right\|_{2} \leqslant \frac{\delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j}}\right\|_{2}
-$$
-By construction, for each $j \geqslant 1$, we have
-$$
-\left\|x_{s_{j}}\right\|_{\infty} \leqslant \frac{1}{S}\left\|X_{S_{j-1}}\right\|_{1}
-$$
-and hence
-$$
-\left\|x_{s_{j}}\right\|_{2} \leqslant \frac{1}{\sqrt{S}}\left\|X_{S_{j-1}}\right\|_{1} .
-$$
-Then we get
-$$
-\begin{aligned}
-\left\|x_{S_{0}}\right\|_{1} & \leqslant \sqrt{S}\left\|x_{S_{0}}\right\|_{2} \\
-& \leqslant \frac{\sqrt{S} \delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j}}\right\|_{2} \\
-& \leqslant \frac{\delta}{1-\delta} \sum_{j \geqslant 1}\left\|x_{S_{j-1}}\right\|_{1} \\
-& \leqslant \frac{\delta}{1-\delta}\left(\left\|x_{s_{0}}\right\|_{1}+\sum_{j \geqslant 1}\left\|x_{S_{j-1}}\right\|_{1}\right)
-\end{aligned}
-$$
+\[\norm{x_{S_0}}_2\leqslant\frac{\delta}{1-\delta}\sum_{j\geqslant 1}\norm{x_{S_j}}_2.\]
+By construction, for each \(j \geqslant 1\), we have
+\[\norm{x_{S_j}}_\infty\leqslant\frac1s\norm{x_{S_{j-1}}}_1,\]
+and hence from
+\[\norm{x_{S_j}}_2\leqslant\frac{1}{\sqrt s}\norm{x_{S_{j-1}}}_1,\]
+we get
+\[\begin{aligned}
+    \norm{x_{S_0}}_1
+    &\leqslant \sqrt s\norm{x_{S_0}}_2\\
+    &\leqslant \frac{\sqrt s\delta}{1-\delta}\sum_{j\geqslant 1}\norm{x_{S_j}}_2\\
+    &\leqslant \frac{\delta}{1-\delta}\sum_{j\geqslant 1}\norm{x_{S_{j-1}}}_1\\
+    &\leqslant \frac{\delta}{1-\delta}\left(\norm{x_{S_0}}_1+\sum_{j\geqslant 1}\norm{x_{S_{j-1}}}_1\right),
+\end{aligned}\]
 which is equivalent to
-$$
-\left\|x_{s_{0}}\right\|_{1} \leqslant \frac{\delta}{1-\delta}\left(\left\|x_{s_{0}}\right\|_{1}+\left\|x_{\bar{s}_{0}}\right\|_{1}\right) .
-$$
-Simple algebra gives us $\left\|x_{s_{0}}\right\|_{1} \leqslant\left\|x_{\bar{s}_{0}}\right\|_{1}$ as long as $\delta<\frac{1}{2}$.
+\[\norm{x_{S_0}}_1\leqslant\frac{\delta}{1-\delta}\left(\norm{x_{S_0}}_1+\norm{x_{bar{S_0}}}_1\right).\]
+Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as long as \(\delta<\frac{1}{2}\).
 \end{proof}
 
 <<<<<<< HEAD
@@ -317,9 +297,9 @@ Since the nuclear norm is not differentiable, gradient descent method is not sui
 
 
 
-\begin{definition}
+\begin{definition}[Subgradient]
     Let \(f:\R^n \to \R\) and its \emph{subgradient} at \(x_0\) is a set defined by
-    \[\partial f(x_0) := \{d \in \R^n \mid f(y)\geqslant f(x_0) + d^T (y-x_0),\forall y \in \R^n\}.\]
+    \[\partial f\left(x_0\right) := \left\{d \in \R^n \mid f(y)\geqslant f\left(x_0\right) + d^T \left(y-x_0\right),\forall y \in \R^n\right\}.\]
 \end{definition}
 
 \begin{remark}
