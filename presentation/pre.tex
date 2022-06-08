@@ -234,17 +234,30 @@
 \end{frame}
 
 \begin{frame}{Relationship}
-    \begin{center}
-        \begin{tabular}{|ll|}
-            \hline
-            \(\norm x_0\): & Number of nonzero elements in \(x\).\\
-            \(\rank(X)\): & Number of nonzero singular values of \(X\).\\
-            \hline\hline
-            \(\norm x_1\): & Sum of absolute values of components of \(x\).\\
-            \(\norm X_\ast\): & Sum of singular values of \(X\).\\
-            \hline
-        \end{tabular}
-    \end{center}
+    \begin{itemize}
+        \item \(\norm x_0\): Number of nonzero elements in \(x\).
+        \item \(\rank(X)\): Number of nonzero singular values of \(X\).
+        \item \(\norm x_1\): Sum of absolute values of components of \(x\).
+        \item \(\norm X_\ast\): Sum of singular values of \(X\).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{RIP for Nuclear Norm}
+    \begin{definition}[Restricted isometry constant]
+        Let \(\mathcal A:\R^{m\by n}\to\R^p\) be a linear map. W.L.O.G. assume \(m\leqslant n\). For every integer \(r\) with \(1\leqslant r\leqslant m\), define the \emph{\(r\)-restricted isometry constant} to be the smallest number \(\delta_r(\mathcal A)\) such that
+        \[\left(1-\delta_r\left(\mathcal A\right)\right)\norm X_F\leqslant\norm{\mathcal A(X)}\leqslant\left(1+\delta_r\left(\mathcal A\right)\right)\norm X_F\]
+        holds for all matrices \(X\) of rank at most \(r\).
+    \end{definition}
+\end{frame}
+
+\begin{frame}{RIP for Nuclear Norm}
+    \begin{theorem}
+        Suppose that \(r\geqslant 1\) is such that \(\delta_{5r}<1/10\). Then \(X^\ast=X_0\), where \(X_0\) is the optimal solution of low rank minimization and \(X^\ast\) is the optimal solution of nuclear norm minimization.
+    \end{theorem}
+    \pause
+    \begin{itemize}
+        \item Through some analysis in probability, we found that the requirements are easy to meet.
+    \end{itemize}
 \end{frame}
 
 \section{Solution}
@@ -308,6 +321,10 @@
 
 \subsection{Convergence Analysis}
 
-
+\begin{frame}{Convergence}
+    Difficult for nonsmooth problems, but may work under certain conditions.\par
+    Choose a diminishing stepsize, such as
+    \[\lim_{k\to\infty}s_k=0,\quad\sum_{k>0}s_k=\infty.\]
+\end{frame}
 
 \end{document}
