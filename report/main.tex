@@ -100,7 +100,7 @@ Clearly, \(\rank(\cdot)\) is not a convex function, then this is not a convex op
 
 Then we can give a theorem to show the above statement.
 
-\begin{theorem}
+\begin{theorem}\label{thr:rlx}
     Suppose \(X_0\) is the optimal point of a low rank representation problem with \(\rank X_0=r\) and SVD \(X_0 = U\Sigma V^T\), \(k=\min(m,n)\), \(S=[r],\bar{S}=\{r+1,\cdots ,k\}\) and \(\mathcal{B}:\R^k_{\geqslant 0} \to \R^p\),
     \[\mathcal{B}:(x_1,x_2,\cdots,x_k) \mapsto \mathcal{A}\left( U \begin{pmatrix}
         \diag(x_1,\cdots,x_k) & 0 \\
@@ -213,7 +213,7 @@ Our goal now is to show that \(\Delta\in C(S)\) then we would have \(\Delta=0\) 
 Hence \(\norm{\Delta_S}_1\geqslant\norm{\Delta_{\bar S}}_1\), which implies \(\Delta\in C(S)\).
 \end{proof}
 
-So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. A natural question, however, is what kind of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). Later, we will then see that specific matrix ensembles satisfy RIP with high probability.
+So far we have shown that the \(\ell_1\)-relaxation works for certain matrices. A natural question, however, is what kind of matrices satisfy the restricted nullspace property. In order to get a handle on this, we will study yet another nice property of matrices, the so called restricted isometry property (RIP). In fact, specific matrix ensembles satisfy RIP with high probability.
 
 \begin{definition}
     A matrix A satisfies the \((s,\delta)\)-RIP if for all s-sparse vectors \(x(\norm{x}_0 \leqslant s)\), we have
@@ -285,7 +285,35 @@ Simple algebra gives us \(\norm{x_{S_0}}_1\leqslant\norm{x_{\bar{S_0}}}_1\) as l
 \end{proof}
 
 Now, we come back to low-rank minimization (Problem \ref{def:lowrank}). Just like what we did before, we try to find a good convex relaxation for a low-rank problem. 
-We found that the relation between the rank and the nuclear norm is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank of a matrix is equal to the number of nonzero singular values, and the nuclear norm is the sum of the absolute value of singular.
+
+\begin{definition}[nuclear norm minimization]
+    Let \(\mathcal{A}:\R^{m\by n}\to \R^p\) be a linear map and \(b\in \R^p\), the \emph{nuclear norm minimization} problem is of the form 
+    \[\begin{aligned}
+        \minimize & \norm X_\ast\\
+        \subjectto & \mathcal A(X)=b.
+    \end{aligned}\]
+\end{definition}
+
+We found that the relation between the rank and the nuclear norm is the same as the relation between the \(\ell_0\) norm and the \(\ell_1\) norm. The rank of a matrix is equal to the number of nonzero singular values, and the nuclear norm is the sum of the absolute value of singular values, while \(\ell_0\)-norm is equal to the number of non-zero components of the vector and \(\ell_1\)-norm is the sum of the absolute value of the components of the vector. From this, we found a convex relaxation which is essentially the same as the relaxation for \(ell_0\)-norm minimization. Then, we give the proof of Theorem\ref{thr:rlx}
+\begin{proof}
+    
+\end{proof}
+
+The same as the RIP for \(\ell_1\) norm minimization, there is a RIP for nuclear norm minimization, too. The reason why we need RIP is that the origin RNP condition is hard to vertify, while the RIP is easier to get.
+
+\begin{definition}
+Let \(\mathcal{A}: \mathbb{R}^{m \times n} \rightarrow \mathbb{R}^{p}\) be a linear map. Without loss of generality, assume \(m \leq n\). For every integer \(r\) with \(1 \leq r \leq m\), define the r-restricted isometry constant to be the smallest number \(\delta_{r}(\mathcal{A})\) such that
+\[
+\left(1-\delta_{r}(\mathcal{A})\right)\|X\|_{F} \leq\|\mathcal{A}(X)\| \leq\left(1+\delta_{r}(\mathcal{A})\right)\|X\|_{F}
+\]
+holds for all matrices \(X\) of rank at most \(r\).
+\end{definition}
+
+\begin{theorem}\label{thr:rip}
+    Suppose that \(r \geq 1\) is that \(\delta_{5r} < 1/10\), Then \(X^* = X_0\), where \(X_0\) is the optimal solution of low rank minimization and \(X^*\) is the optimal soultion of nuclear norm minimization.
+\end{theorem} 
+
+ Actually, through some analysis in probability, we found that the requirements of Theorem \ref{thr:rip} is easy to get, which shows the strength of Theorem \ref{thr:rip}. However, the proof of this theorem is hard, readers can find detailed proofs and explanations in the paper \emph{Guaranteed minimum-rank solutions of linear matrix equations via nuclear norm minimization}\cite{recht2010guaranteed}
 
 \section{Solution}
 
