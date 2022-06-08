@@ -276,4 +276,38 @@
     where \(W\) and \(X\) have orthogonal row/column spaces, \(\norm W\leqslant 1\), and \(X_0=U\Sigma V^T\) is the SVD of \(X_0\).
 \end{frame}
 
+\begin{frame}{Projected Subgradient Methods}
+    Considering the affine equality constraints of low-rank optimization, the iteration method should satisfy
+    \[X_{k+1}=\Pi\left(X_k-s_kY_k\right),\quad Y_k\in\partial\norm{X_k}_\ast,\]
+    where \(\Pi\) is the \blue{orthogonal projection} onto the affine subspace defined by \(\mathcal A\), and \(s_k\) is the stepsize.
+    \pause
+    \par Since \(X_k\) is feasible, we can write
+    \[X_{k+1}=X_k-s_k\Pi_{\mathcal A}Y_k,\]
+    where \(\Pi_{\mathcal A}\) is the orthogonal projection onto \(\Null A\).
+\end{frame}
+
+\begin{frame}{SVD and Polar Decomposition}
+    Suppose \(X=U\Sigma V^T\) (SVD). Then the \blue{polar decomposition} of \(X\) is
+    \[X=\tilde U\tilde P,\]
+    where
+    \[\tilde U=UV^T,\quad\tilde P=V\Sigma V^T.\]
+    \begin{itemize}
+        \item \(\tilde U\) is orthogonal.
+        \item \(\tilde P\) is positive semidefinite.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{SVD and Polar Decomposition}
+    Recall the subgradient of \(\norm{X}_\ast\):
+    \[\partial\norm{X_0}_\ast=\left\{UV^T+W\right\}.\]
+    We only need \(\tilde U=UV^T\) (in polar decomposition).
+    \pause\par
+    Some effective methods to get a numerical approximation of the polar decomposition, such as the \textit{Halley's method}:
+    \[\tilde U_{n+1}=\tilde U_n\left(3I+\tilde U_n^T\tilde U_n\right)\left(I+3\tilde U_n^T\tilde U_n\right)^{-1},\quad \tilde U_0=X_k.\]
+\end{frame}
+
+\subsection{Convergence Analysis}
+
+
+
 \end{document}
