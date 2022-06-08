@@ -340,11 +340,11 @@ To find a subgradient of \(X_k\) we may need to get the SVD of \(X_k\) by the ab
 
 This proposition shows that \(\tilde{U}\) is what we actually need.
 
-We have some effective methods to get a numerical approximation of the polar decomposition, such as the \emph{Hally's method}\cite{nakatsukasa2010optimizing}
+We have some effective methods to get a numerical approximation of the polar decomposition, such as the \emph{Halley's method}\cite{nakatsukasa2010optimizing}
 \[\tilde{U}_{n+1} = \tilde{U}_{n}\left(3 I+\tilde{U}_{n}^{T} \tilde{U}_{n}\right)\left(I+3 \tilde{U}_{n}^{T} \tilde{U}_{n}\right)^{-1}, \quad \tilde{U}_{0}=X_k.\] 
 \subsection{Convergence analysis}
 Regarding convergence, for most nonsmooth problems, subgradient methods do not guarantee that \(X_k\) can be arbitrarily close to the optimal point. There are several probabilities for choices of stepsize \(s_k\). The simplest choice that can guarantee convergence is to use a diminishing stepsize with an infinite travel condition, such as 
-\[ \lim_{k\to \infty} s_k=0,\qquad \sum_{k>0}s_k \text{diverges}.\]
+\[ \lim_{k\to \infty} s_k=0,\qquad \sum_{k>0}s_k\textnormal{ diverges}.\]
 
 More recently, several nonlinear projected subgradient methods, under the rubric of \emph{mirror descent}, have been developed (e.g., by Nemirovski and Yudin \cite{blair1985problem}), followed by a subsequent rederivation and analysis by Beck and Teboulle \cite{beck2003mirror}. These algorithms, and their accompanying analysis, provide improved theoretical guarantees and practical performance over the standard Euclidean projected subgradient method described above. It would be of great interest to analyze to what extent these methods can be applied to the nuclear norm minimization problem.
 
