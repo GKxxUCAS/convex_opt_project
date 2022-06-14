@@ -296,7 +296,7 @@ Now, we come back to low-rank minimization (Problem \ref{def:lowrank}). Just lik
 
 What is worth attention is that, the nuclear norm is to the rank what the \(\ell_1\)-norm is to the \(\ell_0\)-norm, in the sense that the rank of a matrix is equal to the number of nonzero singular values, and the nuclear norm is the sum of the absolute value of singular values. From this, we found a convex relaxation which is essentially the same as the relaxation for \(\ell_0\)-norm minimization. 
 \begin{lemma}
-    Let $X$ be an $n_{1} \times n_{2}$ matrix with rank $r<\frac{n_{1}}{2}$ and $Y$ be an arbitrary $n_{1} \times n_{2}$ matrix. Let $P_{X}^{c}$ and $P_{X}^{r}$ be the matrices that project onto the column and row spaces of $X$ respectively. Then if $P_{X}^{c} Y P_{X}^{r}$ has full rank, $Y$ can be decomposed as
+    Let $X$ be an $m\times n$ matrix with rank $r<\frac{m}{2}$ and $Y$ be an arbitrary $m \times n$ matrix. Let $P_{X}^{c}$ and $P_{X}^{r}$ be the matrices that project onto the column and row spaces of $X$ respectively. Then if $P_{X}^{c} Y P_{X}^{r}$ has full rank, $Y$ can be decomposed as
     $$
     Y=Y_{1}+Y_{2},
     $$
