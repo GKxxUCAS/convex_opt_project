@@ -83,20 +83,6 @@ First, we consider a standard form of low-rank problem, which has only one linea
 
 Clearly, \(\rank(\cdot)\) is not a convex function, then this is not a convex optimization problem, though it always has a optimal value. However, if we attach some conditions, we can find a convex problem to relax it tightly, i.e. an optimal point of the relaxed convex problem is also an optimal point of the original problem. Now, we define some notations:
 
-\begin{definition}[Support]
-    The \emph{support} of a vector x is defined as
-    \[\supp(x) = \left\{i \mid x_i \neq 0\right\}.\]
-\end{definition}
-
-\begin{definition}[Approximately sparse vectors]
-    \emph{The set of approximately sparse vectors} with support \(S\) is 
-    \[C(S):=\left\{\Delta \in \R^d \mid \norm{\Delta_{\bar{S}}}_1\leqslant \norm{\Delta_S}_1\right\},\]
-    where \(S\) is a subset of \([d]:=\{1,2,\cdots,d\}\), \(\bar{S}=[d]\setminus S\) and \(\Delta_S\) is \(\Delta\) restricted to \(S\),
-    \[(\Delta_S)_i = \begin{cases}
-        \Delta_i, & i \in S,\\
-        0, & \otherwise.
-    \end{cases}\]
-\end{definition}
 
 Then we can give a theorem to show the above statement.
 
@@ -114,7 +100,6 @@ Then we can give a theorem to show the above statement.
 \begin{remark}
     \begin{enumerate}[(1)]
         \item \(\sum_{i=1}^{k} \sigma_i(X)\) is called the \emph{nuclear norm} of \(X\) denoted by \(\norm{X}_\ast\).
-        \item The condition \(\Null{\mathcal{B}}\cap C(S) = \{0\}\) is called \emph{restricted nullspace property} (RNP).
     \end{enumerate}
 \end{remark}
 
@@ -185,6 +170,22 @@ It's not easy to find a good transformation from the original problem to a conve
 Although \(\ell_0\)-minimization is NP-hard in general, we will prove that for a restricted class of \(A\), we can relax \(\ell_0\)-minimization to \(\ell_1\)-minimization.
 
 Recall that the nullspace of matrix \(A\) is the set \(\Null A=\left\{\Delta \in\R^d \mid A \Delta=0\right\}\). The nullspace is the set of ``bad'' vectors in our estimation problem. Consider a solution \(A x=y\). If \(\Delta \in\Null A\), then \(x+\Delta\) is also a solution since \(A(x+\Delta)=A x+A \Delta= A x=b\). Thus, we focus on matrices whose nullspace only contains zero on the set of sparse vectors that we care about.
+
+
+\begin{definition}[Support]
+    The \emph{support} of a vector x is defined as
+    \[\supp(x) = \left\{i \mid x_i \neq 0\right\}.\]
+\end{definition}
+
+\begin{definition}[Approximately sparse vectors]
+    \emph{The set of approximately sparse vectors} with support \(S\) is 
+    \[C(S):=\left\{\Delta \in \R^d \mid \norm{\Delta_{\bar{S}}}_1\leqslant \norm{\Delta_S}_1\right\},\]
+    where \(S\) is a subset of \([d]:=\{1,2,\cdots,d\}\), \(\bar{S}=[d]\setminus S\) and \(\Delta_S\) is \(\Delta\) restricted to \(S\),
+    \[(\Delta_S)_i = \begin{cases}
+        \Delta_i, & i \in S,\\
+        0, & \otherwise.
+    \end{cases}\]
+\end{definition}
 
 \begin{definition}
     The matrix A satisfies the restricted nullspace property (RNP) with respect to the support \(S\) if \(C(S) \cap \Null A=\{0\}\).
